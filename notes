@@ -1,0 +1,307 @@
+/*let n = 0;
+
+function numberFormat(n) {
+    return n.toString().padStart(2, '0')
+}
+
+function render() {
+    const items = [
+        'tache1',
+        'tache2',
+        'tache3',
+    ]
+    const title = <React.Fragment>
+                    <h1 className="title" id="title">hello <span>{n}</span> fois</h1>
+                    <ul>{items.map((item, k) => <li key={k}>{item}</li>)}</ul>
+                </React.Fragment>
+
+    ReactDOM.render(title, document.querySelector('#app'))
+}
+
+render()
+window.setInterval(() => {
+    n++
+    render()
+}, 1000)*/
+
+/*
+* function WelcomeFunc({name, children}) {
+    return <div>
+        <h1>Bonjour {name}</h1>
+        <p>{children}</p>
+    </div>
+}
+
+class Welcome extends React.Component {
+    constructor(props) {
+        super(props);
+        console.log(props)
+    }
+
+    render() {
+        return <div>
+            <h1>Bonjour {this.props.name}</h1>
+            <p>{this.props.children}</p>
+        </div>
+    }
+}
+
+class Clock extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {date: new Date()}
+    }
+
+    componentDidMount() {
+        this.timer = window.setInterval(this.tick.bind(this), 1000)
+    }
+
+    componentWillUnmount() {
+        window.clearInterval(this.timer)
+    }
+
+    tick() {
+        this.setState({date: new Date()})
+    }
+
+    render() {
+        const date = new Date()
+        return <div>
+            Nous sommes le {this.state.date.toLocaleDateString()} {this.state.date.toLocaleTimeString()}
+        </div>
+    }
+}
+
+class Incrementer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {n: props.start, timer: null}
+        this.toggle = this.toggle.bind(this)
+        this.reset = this.reset.bind(this)
+    }
+
+    componentDidMount() {
+        this.play()
+    }
+
+    componentWillUnmount() {
+        window.clearInterval(this.state.timer)
+    }
+
+    increment() {
+        this.setState((state, props) => ({n: state.n + props.step}))
+    }
+
+    pause() {
+        window.clearInterval(this.state.timer)
+        this.setState({
+            timer: null
+        })
+    }
+
+    play() {
+        window.clearInterval(this.state.timer)
+        this.setState({
+            timer: window.setInterval(this.increment.bind(this), 1000)
+        })
+    }
+
+    toggle(){
+        return this.state.timer ? this.pause() : this.play()
+    }
+
+    label(){
+        return this.state.timer ? 'Pause' : 'Play'
+    }
+
+    reset(){
+        this.pause()
+        this.play()
+        this.setState((state, props) => ({n: props.start}))
+    }
+
+    render() {
+        return <div>
+            Valeur : {this.state.n}
+                <button onClick={this.toggle}>{this.label()}</button>
+                <button onClick={this.reset}>Reinitialiser</button>
+        </div>
+    }
+}
+
+Incrementer.defaultProps = {
+    start: 0,
+    step: 1,
+}
+
+class ManualIncrementer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {n: 0}
+    }
+
+    increment() {
+        this.setState(
+            (state, props) => ({n: state.n + 1})
+        )
+    }
+
+    render() {
+        return <div>Valeur : {this.state.n}
+            <button onClick={this.increment.bind(this)}>Incrementer</button>
+        </div>
+    }
+}
+
+function Home() {
+    return <div>
+        <Welcome name="julien"/>
+        <Welcome name="mel"/>
+        <Clock/>
+        <Incrementer start={10}/>
+        <Incrementer start={50} step={10}/>
+        <ManualIncrementer/>
+    </div>
+}
+
+class Home extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            nom: 'Jean'
+        }
+        this.handleChange = this.handleChange.bind(this)
+    }
+    handleChange(e){
+        this.setState({
+            nom: Array.from(e.target.selectedOptions).map(o => o.value)
+        })
+    }
+    render(){
+        return <div>
+            {JSON.stringify(this.state.nom)} <br/>
+            <label htmlFor="nom">Mon nom</label>
+            <select value={this.state.nom} onChange={this.handleChange} multiple>
+                <option value="demo1">demo1</option>
+                <option value="demo2">demo2</option>
+                <option value="demo3">demo3</option>
+            </select>
+        </div>
+    }
+}
+
+
+
+ReactDOM.render(<Home/>, document.querySelector('#app'))
+
+
+
+
+
+
+
+
+
+class Home extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            checked: true
+        }
+        this.handleChange = this.handleChange.bind(this)
+    }
+    handleChange(e){
+        this.setState({
+            checked: e.target.checked
+        })
+    }
+    render(){
+        return <div>
+            {JSON.stringify(this.state.nom)} <br/>
+            <label htmlFor="nom">Mon nom</label>
+            <input type="checkbox" checked={this.state.checked} onChange={this.handleChange}/>
+            {this.state.checked ? <div>la checkbox est coché</div> : <div>la checkbox n'est pas coché</div> }
+        </div>
+    }
+}
+
+ReactDOM.render(<Home/>, document.querySelector('#app'))
+
+
+
+
+
+
+
+
+
+class Field extends React.Component{
+    render(){
+        const {name, value, onChange} = this.props
+        return <div className="form-group">
+            <label htmlFor={name}>le libellé</label>
+            <input type="text" value={value} onChange={onChange} id={name} name={name} className="form-control"/>
+        </div>
+    }
+}
+class Home extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            nom: '',
+            prenom: '',
+            newsletter: false
+        }
+        this.handleChange = this.handleChange.bind(this)
+    }
+
+    handleChange(e) {
+        const name = e.target.name
+        const type = e.target.type
+        const value = type === 'checkbox' ? e.target.checked : e.target.value
+        this.setState({
+            [name]: value
+        })
+    }
+
+    render() {
+        console.log('render')
+        return <div>
+            <Field name"nom" value={this.state.nom} onChange={this.handleChange}/>
+            <div>
+                <label htmlFor="nom">Nom</label>
+                <input type="text" value={this.state.nom} onChange={this.handleChange} id="nom" name="nom"/>
+            </div>
+
+            <div>
+                <label htmlFor="prenom">Prenom</label>
+                <input type="text" value={this.state.prenom} onChange={this.handleChange} id="prenom" name="prenom"/>
+            </div>
+
+            <div>
+                <label htmlFor="newsletter">Abo Newsletter</label>
+                <input type="checkbox" checked={this.state.newsletter} onChange={this.handleChange} id="newsletter" name="newsletter"/>
+            </div>
+            <input type="text" defaultValue="salut"/>
+            {JSON.stringify(this.state)}
+        </div>
+    }
+}
+
+ReactDOM.render(<Home/>, document.querySelector('#app'))
+
+
+
+
+
+
+* */
+
+
+
+les composant contienent leur propre logique 
+qui fonctionnent de maniere individuel 
+sont independant et que l'on peut manipuler via des propriete 
+ca permet de maximisiser une logique reutilisable 
+et d'ameliorer aussi les modifications 
+qui sont faites au niveau du dom
